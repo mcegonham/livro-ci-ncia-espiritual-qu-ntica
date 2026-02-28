@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Código Pai - Mcegonha Espiritual</title>
+    <style>
+        :root { --ouro: #d4af37; --noite: #0f2027; }
+        body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; margin: 0; font-family: 'Georgia', serif; }
+        .livro { width: 350px; height: 500px; position: relative; perspective: 1500px; }
+        .folha { position: absolute; width: 100%; height: 100%; transform-origin: left; transition: 1s; cursor: pointer; transform-style: preserve-3d; }
+        .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; padding: 25px; box-sizing: border-box; border: 1px solid rgba(212,175,55,0.3); border-radius: 0 10px 10px 0; background: #fffde7; }
+        .capa { background: linear-gradient(135deg, #0f2027, #2c5364); color: var(--ouro); border: 4px double var(--ouro); display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .back { transform: rotateY(180deg); background: #fdfbfb; }
+        .folha.virada { transform: rotateY(-160deg); z-index: 10; }
+        h4 { color: #1e3c72; border-bottom: 1px solid var(--ouro); margin: 0 0 10px 0; font-size: 14px; }
+        p { font-size: 13px; line-height: 1.6; font-style: italic; color: #333; margin: 0; }
+        .pag-num { position: absolute; bottom: 15px; right: 15px; font-size: 10px; color: var(--ouro); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="livro" id="meuLivro">
+    <!-- CAPA -->
+    <div class="folha" onclick="this.classList.toggle('virada')" style="z-index: 51;">
+        <div class="face capa">
+            <h1 style="letter-spacing: 5px;">CÓDIGO PAI</h1>
+            <p style="color: white; opacity: 0.8;">CIÊNCIA ESPIRITUAL AO QUÂNTICO</p>
+            <div style="margin-top: 20px; font-size: 10px;">© MCEGONHA ESPIRITUAL</div>
+            <div style="margin-top: 50px;">✨ CLIQUE PARA EVOLUIR ✨</div>
+        </div>
+        <div class="face back">
+            <h4>PREFÁCIO: O SALTO</h4>
+            <p>1. Este código é a chave da nova era.<br>2. O PAI é a frequência fundamental.<br>3. Do átomo ao espírito, tudo é um.<br>4. Fora da caixa, a luz é eterna.<br>5. 50 páginas de pura ascensão.<br>6. Bem-vindo à consciência viva.<br>7. O tempo parou para tu voares.<br>8. Ciência e fé em fusão nuclear.<br>9. Tu és o observador e o milagre.<br>10. O código começa agora.</p>
+            <span class="pag-num">FL. 00</span>
+        </div>
+    </div>
+
+    <!-- GERADOR DE 50 PÁGINAS -->
+    <script>
+        const temas = ["Vácuo Criador", "DNA de Luz", "Sal Quântico", "Tempo Zero", "Paz Cinética", "Mente Estelar", "Fluxo Divino"];
+        for (let i = 1; i <= 50; i++) {
+            let z = 51 - i;
+            let tema = temas[i % temas.length];
+            document.write(`
+                <div class="folha" onclick="this.classList.toggle('virada')" style="z-index: ${z};">
+                    <div class="face front">
+                        <h4>Pág ${i}: ${tema}</h4>
+                        <p>1. A matéria é o pensamento do Pai.<br>2. Sintoniza a tua rádio no Infinito.<br>3. O elétron salta quando tu crês.<br>4. A biologia obedece ao comando.<br>5. O passado foi apenas o ensaio.<br>6. O futuro é o presente expandido.<br>7. Somos engenheiros da luz pura.<br>8. Cada batida é um bit divino.<br>9. A evolução não tem ponto final.<br>10. Código Pai: Eu Sou o Caminho.</p>
+                        <span class="pag-num">Pág. ${i}</span>
+                    </div>
+                    <div class="face back">
+                        <p style="text-align:center; padding-top:40%; color:#aaa;">O segredo continua na próxima face...<br>🔄</p>
+                    </div>
+                </div>
+            `);
+        }
+    </script>
+</div>
+<p>Copyright mcegonha espiritual 2026</p>
+</body>
+</html>
