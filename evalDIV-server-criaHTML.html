@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Server Div - Master Executer</title>
+    <style>
+        body { background: #0d0d0d; color: #00ff41; font-family: 'Consolas', monospace; padding: 20px; }
+        #entrada_codigo { 
+            width: 100%; height: 250px; background: #000; color: #00ff41; 
+            border: 2px solid #00ff41; padding: 15px; font-size: 15px; outline: none;
+            box-shadow: 0 0 10px #00ff41;
+        }
+        #server_div { 
+            margin-top: 20px; padding: 20px; border: 2px solid #fff; 
+            min-height: 150px; background: #1a1a1a; color: #fff;
+        }
+        .controles { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+        button { 
+            border: none; padding: 12px 20px; font-weight: bold; cursor: pointer; 
+            text-transform: uppercase; transition: 0.3s;
+        }
+        .btn-play { background: #00ff41; color: #000; }
+        .btn-export { background: #007acc; color: #white; }
+        .btn-limpar { background: #ff4444; color: white; }
+        button:hover { opacity: 0.8; transform: scale(1.02); }
+        h3 { color: #00ff41; text-shadow: 0 0 5px #00ff41; }
+    </style>
+</head>
+<body>
+
+    <h3>EDITOR DE CÓDIGO (AUTO-SAVE)</h3>
+    <textarea id="entrada_codigo" placeholder="Insere HTML/JS/CSS aqui..."></textarea>
+    
+    <div class="controles">
+        <button class="btn-play" onclick="executar()">[ RUN CODE ]</button>
+        <button class="btn-export" onclick="exportarFicheiro()">[ EXPORTAR .HTML ]</button>
+        <button class="btn-limpar" onclick="limparTudo()">[ RESET STORAGE ]</button>
+    </div>
+
+    <h3>SERVER DIV (AMBIENTE DE EXECUÇÃO)</h3>
+    <div id="server_div">Sistema pronto.</div>
+
+    <script>
+        const input = document.getElementById('entrada_codigo');
+        const output = document.getElementById('server_div');
+
+        // 1. CARREGAR AO INICIAR
+        window.onload = () => {
+            const salvo = localStorage.getItem('meu_codigo_offline');
+            if (salvo) input.value = salvo;
+        };
+
+        // 2. AUTO-SAVE NO DISCO LOCAL
+        input.oninput = () => localStorage.setItem('meu_codigo_offline', input.value);
+
+        // 3. EXECUTAR NA DIV
+        function executar() {
+            const codigo = input.value;
+            try {
+                output.innerHTML = codigo;
+                // Executa scripts que estejam dentro do código inserido
+                const scripts = output.querySelectorAll("script");
+                scripts.forEach(s => eval(s.innerText));
+            } catch (e) {
+                output.innerHTML = "<b style='color:red'>ERRO: " + e + "</b>";
+            }
+        }
+
+        // 4. EXPORTAR PARA NOVO FICHEIRO (Cria o NOVO a partir do usado)
+        function exportarFicheiro() {
+            const conteudo = input.value;
+            if(!conteudo) return alert("Nada para exportar!");
+
+            // Cria um "blob" (objeto de dados) com o teu código
+            const blob = new Blob([conteudo], { type: "text/html" });
+            const link = document.createElement("a");
+            
+            link.href = URL.createObjectURL(blob);
+            link.download = "nova_ferramenta_" + Date.now() + ".html";
+            
+            // Simula o clique para descarregar offline
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        // 5. LIMPAR TUDO
+        function limparTudo() {
+            if(confirm("Limpar base de dados local?")) {
+                localStorage.clear();
+                input.value = "";
+                output.innerHTML = "Memória apagada.";
+            }
+        }
+    </script>
+
+</body>
+</html>
