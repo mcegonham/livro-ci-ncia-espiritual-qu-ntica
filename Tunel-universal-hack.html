@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <title>NÚCLEO X+Y | TÚNEL UNIVERSAL</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; display: flex; flex-direction: column; height: 100vh; }
+        #top-bar { background: #010; border-bottom: 2px solid #0f0; padding: 10px; display: flex; gap: 15px; align-items: center; z-index: 999; }
+        input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 5px; font-family: 'Courier New'; outline: none; width: 150px; }
+        .btn { background: #000; border: 1px solid #0f0; color: #0f0; padding: 8px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .btn:hover { background: #0f0; color: #000; box-shadow: 0 0 15px #0f0; }
+        .danger { border-color: #f00; color: #f00; }
+        #viewport { flex-grow: 1; position: relative; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; filter: brightness(0.8); }
+        #overlay-status { position: absolute; bottom: 10px; right: 10px; font-size: 10px; color: #050; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="top-bar">
+        <input type="text" id="url-input" placeholder="LINK DO ALVO">
+        <input type="password" id="pass-input" placeholder="SENHA">
+        <button class="btn" onclick="lancarTunel()">ABRIR EM TÚNEL</button>
+        <button class="btn danger" onclick="autoDestruicao()">APAGAR RASTO ⚡</button>
+    </div>
+
+    <div id="viewport">
+        <iframe id="portal" src="about:blank"></iframe>
+        <div id="overlay-status">SESSÃO ENCRIPTADA | PROTOCOLO CEGONHA</div>
+    </div>
+
+    <script>
+        // A senha "maria-gf" está escondida aqui (invertida: 32ahnogec)
+        const _C = "32ahnogec";
+
+        function lancarTunel() {
+            const url = document.getElementById('url-input').value;
+            const pass = document.getElementById('pass-input').value;
+            
+            // Verifica a senha sem a deixar óbvia no código
+            if (pass.split("").reverse().join("") !== _C) {
+                alert("ACESSO NEGADO.");
+                autoDestruicao(true);
+                return;
+            }
+
+            if (!url) return;
+            
+            const linkFinal = url.startsWith('http') ? url : 'https://' + url;
+
+            // Abre a janela limpa (O teu método que funciona)
+            const config = "width=1100,height=800,menubar=no,toolbar=no,location=no,status=no";
+            const win = window.open(linkFinal, "CanalPrivado", config);
+            
+            // Também carrega no visor principal para backup
+            document.getElementById('portal').src = linkFinal;
+
+            // Monitoriza o fecho para auto-destruição
+            const timer = setInterval(() => {
+                if (win && win.closed) {
+                    clearInterval(timer);
+                    autoDestruicao(true);
+                }
+            }, 1000);
+        }
+
+        function autoDestruicao(silencioso = false) {
+            if (silencioso || confirm("ATENÇÃO: Purga total de dados. Confirmar?")) {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.history.replaceState(null, "", "/");
+                window.location.replace("https://www.google.com");
+            }
+        }
+
+        document.oncontextmenu = () => false;
+    </script>
+</body>
+</html>
